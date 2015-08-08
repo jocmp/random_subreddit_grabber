@@ -4,15 +4,15 @@ import sys
 import webbrowser
 
 _MIN_WAIT_TIME = float(0)
-_TUP_STATUS = 0
-_TUP_URL = 1
-_TUP_HEADER_RETRY_AFTER = 2
+_TUP_URL = 0
+_TUP_HEADER_RETRY_AFTER = 1
+_REDDIT_RANDOM_URL = 'http://reddit.com/r/random/'
 
 def __get_random_url(sesh):
-    r = sesh.get('http://reddit.com/r/random/', allow_redirects=True)
-    return r.status_code, r.url, r.headers.get('Retry-After', _MIN_WAIT_TIME)
+    request = sesh.get(_REDDIT_RANDOM_URL, allow_redirects=True)
+    return request.url, request.headers.get('Retry-After', _MIN_WAIT_TIME)
 
-def __session_loop_rand(expected_count, url_set):
+def collect_urls(expected_count, url_set):
     s = requests.Session()
     wait_time = _MIN_WAIT_TIME
     entry_iter = 0
@@ -28,9 +28,10 @@ def __session_loop_rand(expected_count, url_set):
             current_count-=1
             entry_iter+=1
             url_set.add(resultTup[_TUP_URL])
+    __final_print()
 
-def __user_amount(attempts):
-    user_input = input('How many random results do you want? ')
+def user_amount():
+    user_input = None
     while not isinstance(user_input, int):
         user_input = input('How many random results do you want? ')
         try:
@@ -39,18 +40,20 @@ def __user_amount(attempts):
             print("Expected number value. Try again.\n")
     return user_input
 
-def __open_result_tabs(final_set):
+def open_result_tabs(final_set):
+    print("\nOpening tabs...")
     for found_url in final_set:
         webbrowser.open_new_tab(found_url)
 
-def main():
-    request_amount = __user_amount(0)
-    my_set = set()
-    __session_loop_rand(request_amount, my_set)
-    sys.stdout.write("\r100%")
+def __final_print():
+    sys.stdout.write("\r100% done.\n")
     sys.stdout.flush()
-    print("\nOpening tabs...")
-    __open_result_tabs(my_set)
+
+def main():
+    request_amount = user_amount()
+    my_set = set()
+    collect_urls(request_amount, my_set)
+    open_result_tabs(my_set)
 
 if __name__ == '__main__':
     main()

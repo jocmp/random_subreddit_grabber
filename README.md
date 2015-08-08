@@ -5,7 +5,7 @@ This script uses the [requests](http://www.python-requests.org/en/latest/)
 library as well as the
 [webrowser](https://docs.python.org/3/library/webbrowser.html) module
 to make a respectful get http request to reddit's
-(random)[http://reddit.com/r/random] page.
+[random](http://reddit.com/r/random) page.
 
 The script asks for a user input on how many random subreddit links to gather.
 It only retrieves successful redirects, and opens them simultaneously
