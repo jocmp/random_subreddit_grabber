@@ -15,7 +15,7 @@ How To Use The Script
 -----------------------
 
 Assuming you have Python 3.+, all you need to do from your terminal is execute
-the following line:
+the following line:   
 ``python random_reddit_grabber.py``
 
 The interface will take you the rest of the way.
