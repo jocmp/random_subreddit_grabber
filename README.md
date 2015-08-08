@@ -24,7 +24,7 @@ Installation
 -----------------------
 
 1. Installation is twofold. Make sure you have Python 3.+ and
-2. From your command line, download the Requests module
+2. From your command line, download the Requests module   
 ``pip install requests``
 
 License
